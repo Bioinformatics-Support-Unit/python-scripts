@@ -1,11 +1,10 @@
 import pysam
 import argparse
 
-#gapdh is on +ve strand
 #chromosomal locations of gene in different annotations
 #currently, Ensembl human annotation...
-gapdh_location = {'grch37': ("12", 6643093, 6647481),
-    'grch38': ("12", 6533927, 6538374),}
+gapdh_location = {'grch37': ("12", 6643093, 6647481, '+'),
+    'grch38': ("12", 6533927, 6538374, '+'),}
 
 def main(sam, genome):
     """Finds the strandedness of an RNA-Seq sample based on the reads
@@ -29,8 +28,12 @@ def main(sam, genome):
         else:
             other += 1 # should never get here (as all reads are mapped)
     total = float(r1+r2+f1+f2)
-    percent_firststrand = ((r1+f2)/total)*100
-    percent_secondstrand = ((r2+f1)/total)*100
+    if location[3] == '+':
+        percent_firststrand = ((r1+f2)/total)*100
+        percent_secondstrand = ((r2+f1)/total)*100
+    elif location[3] == '-':
+        percent_firststrand = ((f1+r2)/total)*100
+        percent_secondstrand = ((f2+r1)/total)*100
     if percent_firststrand > 99:
         print("First Stranded")
     elif percent_secondstrand > 99:

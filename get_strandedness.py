@@ -4,7 +4,8 @@ import argparse
 #chromosomal locations of gene in different annotations
 #currently, Ensembl human annotation...
 gapdh_location = {'grch37': ("12", 6643093, 6647481, '+'),
-    'grch38': ("12", 6533927, 6538374, '+'),}
+    'grch38': ("12", 6533927, 6538374, '+'),
+    'hg19': ("chr12", 6643585, 6647537, '+'),}
 
 def main(sam, genome):
     """Finds the strandedness of an RNA-Seq sample based on the reads
